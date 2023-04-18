@@ -26,7 +26,7 @@ hs  <- makeParamSet(
           makeIntegerParam("maxdepth" , lower=  3L  , upper=   20L),
           forbidden = quote( minbucket > 0.5*minsplit ) )             # minbuket NO PUEDE ser mayor que la mitad de minsplit
 
-ksemilla_azar  <- 102191   #cambiar por la primer semilla
+ksemilla_azar  <- 596731   #cambiar por la primer semilla
 
 #------------------------------------------------------------------------------
 #graba a un archivo los componentes de lista
@@ -140,19 +140,19 @@ EstimarGanancia  <- function( x )
 #------------------------------------------------------------------------------
 #Aqui empieza el programa
 
-setwd("X:\\gdrive\\austral2023v\\")   #Establezco el Working Directory
+setwd("D:/Dropbox/Documentos Académicos/Documentos Académicos A-E/Estadistica/Maestria Ciencia de Datos/Maestría Austral/Lab/datasets")   #Establezco el Working Directory
 
 #cargo los datos
-dataset  <- fread("./datasets/dataset_pequeno.csv")
+dataset  <- fread("D:/Dropbox/Documentos Académicos/Documentos Académicos A-E/Estadistica/Maestria Ciencia de Datos/Maestría Austral/Lab/datasets/dataset_pequeno.csv")
 #trabajo solo con los datos con clase, es decir 202107
 dataset  <- dataset[ clase_ternaria!= "" ]
 
 
 #creo la carpeta donde va el experimento
 # HT  representa  Hiperparameter Tuning
-dir.create( "./exp/",  showWarnings = FALSE ) 
-dir.create( "./exp/HT3210/", showWarnings = FALSE )
-setwd("./exp/HT3210/")   #Establezco el Working Directory DEL EXPERIMENTO
+dir.create( "D:/Dropbox/Documentos Académicos/Documentos Académicos A-E/Estadistica/Maestria Ciencia de Datos/Maestría Austral/Lab/exp/",  showWarnings = FALSE ) 
+dir.create( "D:/Dropbox/Documentos Académicos/Documentos Académicos A-E/Estadistica/Maestria Ciencia de Datos/Maestría Austral/Lab/exp/HT3210/", showWarnings = FALSE )
+setwd("D:/Dropbox/Documentos Académicos/Documentos Académicos A-E/Estadistica/Maestria Ciencia de Datos/Maestría Austral/Lab/exp/HT3210/")   #Establezco el Working Directory DEL EXPERIMENTO
 
 
 archivo_log  <- "HT321.txt"

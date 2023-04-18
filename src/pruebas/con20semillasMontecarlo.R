@@ -5,7 +5,7 @@ require("data.table")
 require("rpart")
 require("parallel")
 
-ksemillas  <- c(596731, 783409, 215487, 326971, 871623) #reemplazar por las propias semillas
+ksemillas  <- c(596731, 783409, 215487, 326971, 871623, 605519,620137,622187,623953,624307,637601,672823,676399,701509,734863,753619,782659,789977,799303, 858551   ) #reemplazar por las propias semillas
 
 #------------------------------------------------------------------------------
 #particionar agrega una columna llamada fold a un dataset que consiste en una particion estratificada segun agrupa
@@ -14,11 +14,11 @@ ksemillas  <- c(596731, 783409, 215487, 326971, 871623) #reemplazar por las prop
 particionar  <- function( data,  division, agrupa="",  campo="fold", start=1, seed=NA )
 {
   if( !is.na(seed) )   set.seed( seed )
-
+  
   bloque  <- unlist( mapply(  function(x,y) { rep( y, x )} ,   division,  seq( from=start, length.out=length(division) )  ) )  
-
+  
   data[ , (campo) :=  sample( rep( bloque, ceiling(.N/length(bloque))) )[1:.N],
-          by= agrupa ]
+        by= agrupa ]
 }
 #------------------------------------------------------------------------------
 
@@ -26,31 +26,31 @@ ArbolEstimarGanancia  <- function( semilla, param_basicos )
 {
   #particiono estratificadamente el dataset
   particionar( dataset, division=c(7,3), agrupa="clase_ternaria", seed= semilla )  #Cambiar por la primer semilla de cada uno !
-
+  
   #genero el modelo
   modelo  <- rpart("clase_ternaria ~ .",     #quiero predecir clase_ternaria a partir del resto
                    data= dataset[ fold==1],  #fold==1  es training,  el 70% de los datos
                    xval= 0,
                    control= param_basicos )  #aqui van los parametros del arbol
-
+  
   #aplico el modelo a los datos de testing
   prediccion  <- predict( modelo,   #el modelo que genere recien
                           dataset[ fold==2],  #fold==2  es testing, el 30% de los datos
                           type= "prob") #type= "prob"  es que devuelva la probabilidad
-
+  
   #prediccion es una matriz con TRES columnas, llamadas "BAJA+1", "BAJA+2"  y "CONTINUA"
   #cada columna es el vector de probabilidades 
-
-
+  
+  
   #calculo la ganancia en testing  qu es fold==2
   ganancia_test  <- dataset[ fold==2, 
                              sum( ifelse( prediccion[, "BAJA+2"]  >  0.025,
-                                         ifelse( clase_ternaria=="BAJA+2", 117000, -3000 ),
-                                         0 ) )]
-
+                                          ifelse( clase_ternaria=="BAJA+2", 117000, -3000 ),
+                                          0 ) )]
+  
   #escalo la ganancia como si fuera todo el dataset
   ganancia_test_normalizada  <-  ganancia_test / 0.3
-
+  
   return( list( "testing"=       dataset[ fold==2, .N],
                 "testing_pos"=   dataset[ fold==2 & clase_ternaria=="BAJA+2", .N],
                 "envios"=        dataset[ fold==2 , sum( prediccion[ , "BAJA+2"] > 0.025)],

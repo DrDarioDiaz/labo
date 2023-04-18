@@ -19,10 +19,10 @@ dapply  <- dataset[ foto_mes==202109 ]  #defino donde voy a aplicar el modelo
 modelo  <- rpart(formula=   "clase_ternaria ~ .",  #quiero predecir clase_ternaria a partir de el resto de las variables
                  data=      dtrain,  #los datos donde voy a entrenar
                  xval=      0,
-                 cp=       -0.717789498750357,   #esto significa no limitar la complejidad de los splits
-                 minsplit=  985,     #minima cantidad de registros para que se haga el split
+                 cp=       -0.000001,   #esto significa no limitar la complejidad de los splits
+                 minsplit=  6,     #minima cantidad de registros para que se haga el split
                  minbucket= 2,     #tamaño minimo de una hoja
-                 maxdepth=  10 )    #profundidad maxima del arbol
+                 maxdepth=  5 )    #profundidad maxima del arbol
 
 
 #grafico el arbol
@@ -45,9 +45,8 @@ dapply[ , Predicted := as.numeric( prob_baja2 > 1/40 ) ]
 
 #genero el archivo para Kaggle
 #primero creo la carpeta donde va el experimento
-dir.create( "D:/Dropbox/Documentos Académicos/Documentos Académicos A-E/Estadistica/Maestria Ciencia de Datos/Maestría Austral/Lab/exp/" )
-dir.create( "D:/Dropbox/Documentos Académicos/Documentos Académicos A-E/Estadistica/Maestria Ciencia de Datos/Maestría Austral/Lab/exp/KAHogar02_03" )
+dir.create( "D:/Dropbox/Documentos Académicos/Documentos Académicos A-E/Estadistica/Maestria Ciencia de Datos/Maestría Austral/Lab/exp/KA2008" )
 
 fwrite( dapply[ , list(numero_de_cliente, Predicted) ], #solo los campos para Kaggle
-        file= "D:/Dropbox/Documentos Académicos/Documentos Académicos A-E/Estadistica/Maestria Ciencia de Datos/Maestría Austral/Lab/exp/KAHogar02_03/K101_001.csv",
+        file= "D:/Dropbox/Documentos Académicos/Documentos Académicos A-E/Estadistica/Maestria Ciencia de Datos/Maestría Austral/Lab/exp/KA2008/K101_018.csv",
         sep=  "," )

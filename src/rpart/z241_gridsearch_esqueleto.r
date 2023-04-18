@@ -8,7 +8,7 @@ require("data.table")
 require("rpart")
 require("parallel")
 
-ksemillas  <- c(102191, 200177, 410551, 552581, 892237) #reemplazar por las propias semillas
+ksemillas  <- c(596731, 783409, 215487, 326971, 871623) #reemplazar por las propias semillas
 
 #------------------------------------------------------------------------------
 #particionar agrega una columna llamada fold a un dataset que consiste en una particion estratificada segun agrupa
@@ -75,11 +75,11 @@ ArbolesMontecarlo  <- function( semillas, param_basicos )
 #------------------------------------------------------------------------------
 
 #Aqui se debe poner la carpeta de la computadora local
-setwd("X:\\gdrive\\austral2023v\\")   #Establezco el Working Directory
+setwd("D:/Dropbox/Documentos Académicos/Documentos Académicos A-E/Estadistica/Maestria Ciencia de Datos/Maestría Austral/Lab/datasets")   #Establezco el Working Directory
 #cargo los datos
 
 #cargo los datos
-dataset  <- fread("./datasets/dataset_pequeno.csv")
+dataset  <- fread("D:/Dropbox/Documentos Académicos/Documentos Académicos A-E/Estadistica/Maestria Ciencia de Datos/Maestría Austral/Lab/datasets/dataset_pequeno.csv")
 
 #trabajo solo con los datos con clase, es decir 202107
 dataset  <- dataset[ clase_ternaria!= "" ]
@@ -87,9 +87,9 @@ dataset  <- dataset[ clase_ternaria!= "" ]
 #genero el archivo para Kaggle
 #creo la carpeta donde va el experimento
 # HT  representa  Hiperparameter Tuning
-dir.create( "./exp/",  showWarnings = FALSE ) 
-dir.create( "./exp/HT2020/", showWarnings = FALSE )
-archivo_salida  <- "./exp/HT2020/gridsearch.txt"
+dir.create( "D:/Dropbox/Documentos Académicos/Documentos Académicos A-E/Estadistica/Maestria Ciencia de Datos/Maestría Austral/Lab/exp",  showWarnings = FALSE ) 
+dir.create( "D:/Dropbox/Documentos Académicos/Documentos Académicos A-E/Estadistica/Maestria Ciencia de Datos/Maestría Austral/Lab/exp/HT2020/", showWarnings = FALSE )
+archivo_salida  <- "D:/Dropbox/Documentos Académicos/Documentos Académicos A-E/Estadistica/Maestria Ciencia de Datos/Maestría Austral/Lab/exp/HT2020/gridsearch.txt"
 
 #Escribo los titulos al archivo donde van a quedar los resultados
 #atencion que si ya existe el archivo, esta instruccion LO SOBREESCRIBE, y lo que estaba antes se pierde
@@ -127,3 +127,4 @@ for( vmin_split  in  c( 1000, 800, 600, 400, 200, 100, 50, 20, 10 )  )
 
 }
 }
+
